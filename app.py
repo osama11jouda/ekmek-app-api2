@@ -7,9 +7,8 @@ from flask_restful import Api
 from flask_uploads import configure_uploads, patch_request_class
 from marshmallow import ValidationError
 
-from db import db
+
 from libs.image_helper import IMAGE_SET
-from ma import ma
 from models.blocklist_model import BlockListModel
 from models.user_model import UserModel
 from resources.address import (UserAddress, AddressList, )
@@ -30,11 +29,6 @@ patch_request_class(app, 10 * 1024 * 1024)
 configure_uploads(app, IMAGE_SET)
 api = Api(app)
 jwt = JWTManager(app)
-
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
 
 
 @app.errorhandler(ValidationError)
@@ -103,8 +97,7 @@ api.add_resource(OrderIsPacked, '/admin/order/packed/<int:order_id>')  # get
 api.add_resource(OrderIsShipped, '/admin/order/shipped/<int:order_id>')  # get
 api.add_resource(OrderIsDelivered, '/admin/order/delivered/<int:order_id>')  # get
 
+
 if __name__ == '__main__':
-    db.init_app(app)
-    ma.init_app(app)
 
     app.run(port=5000)
