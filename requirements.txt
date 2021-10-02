@@ -1,0 +1,11 @@
+Flask
+Flask-JWT-Extended
+Flask-RESTful
+Flask-SQLAlchemy
+git+https://github.com/maxcountryman/flask-uploads.git
+flask-marshmallow
+marshmallow
+marshmallow-sqlalchemy
+python-dotenv
+psycopg2
+uwsgi
