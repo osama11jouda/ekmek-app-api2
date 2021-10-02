@@ -22,7 +22,7 @@ from resources.user import (UserRegister, UserLogin, RefreshToken, UserLogout1, 
 
 app = Flask(__name__)
 load_dotenv('.env', verbose=True)
-app.config.from_object('default_config.py')
+app.config.from_object('default_config')
 app.config.from_envvar('APPLICATION_SETTINGS', silent=True)
 
 patch_request_class(app, 10 * 1024 * 1024)
