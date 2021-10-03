@@ -70,6 +70,25 @@ class ItemImage(Resource):
         pass
 
 
+class ItemImageUrl(Resource):
+    # adding item image // admin privilege require
+    @jwt_required()
+    def post(self, item_id):
+        claim = get_jwt()
+        if not claim['is_admin']:
+            return {'msg': 'fail: user is not admin'}, 400
+        try:
+            item = ItemModel.find_item_by_id(item_id)
+            if not item:
+                return {'msg': 'fail: item not found'}, 404
+            data = request.get_json()
+            item.image = data['image']
+            item.save_item()
+            return {'msg': 'success: image uploaded'}, 201
+        except Exception as e:
+            return {'msg': f'fail:{str(e)}'}
+
+
 class DeleteAvatarImage(Resource):
     # deleting user profile image
     @jwt_required()

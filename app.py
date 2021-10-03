@@ -14,7 +14,7 @@ from models.user_model import UserModel
 from resources.address import (UserAddress, AddressList, )
 from resources.admin import (UsersList, AddingBalance, AddingAdmin, DeletingAdmin, AddingDelivery, DeletingDelivery,
                              AdminsList, DeliveriesList)
-from resources.image import (UserAvatar, DeleteAvatarImage, ItemImage, DeleteItemImage)
+from resources.image import (UserAvatar, DeleteAvatarImage, ItemImage, DeleteItemImage, ItemImageUrl)
 from resources.item import (RegisterItem, UpdateItem, DeleteItem, ItemList)
 from resources.order import (OrderIsPacked, OrdersList, OrderIsShipped, OrderIsDelivered, Order, UpdateOrder,
                              DeleteOrder, UserOrders, OrderPayment)
@@ -77,6 +77,7 @@ api.add_resource(RegisterItem, '/admin/item/register')  # post  --ok
 api.add_resource(UpdateItem, '/admin/item/update/<int:item_id>')  # put  --ok
 api.add_resource(DeleteItem, '/admin/item/delete/<int:item_id>')  # delete  --ok
 api.add_resource(ItemImage, '/admin/item/image/<int:item_id>')  # post  --ok
+api.add_resource(ItemImageUrl, '/admin/item/image/url/<int:item_id>')  # post  --ok
 api.add_resource(DeleteItemImage, '/admin/image/delete/<int:item_id>/<string:img_name>')  # delete  --ok
 
 api.add_resource(AddingBalance, '/admin/balance/add/<int:user_id>')  # post --ok
