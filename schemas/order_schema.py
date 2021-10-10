@@ -8,6 +8,6 @@ class OrderSchema(ma.SQLAlchemyAutoSchema):
 
     class Meta:
         model = OrderModel
-        dump_only = ('id', 'status', 'total_price')
+        dump_only = ('id', 'total_price')
         include_fk = True
         load_instance = True

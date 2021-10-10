@@ -25,6 +25,7 @@ class OrderModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     order_date = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
     total_price = db.Column(db.Float(precision=2), nullable=False, default=0.0)
+    payment_way = db.Column(db.String(12), nullable=False, default='on_delivery')
     payment_status = db.Column(db.Boolean, nullable=False, default=False)
     is_packed = db.Column(db.Boolean, nullable=False, default=False)
     is_shipped = db.Column(db.Boolean, nullable=False, default=False)

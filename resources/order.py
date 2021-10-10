@@ -20,6 +20,7 @@ class Order(Resource):
         try:
             data = request.get_json()
             user_id = get_jwt_identity()
+            _user = UserModel.find_user_by_id(user_id)
             total_price = 0.0
             items = []
             item_id_quantity = Counter(data['items'])
@@ -29,11 +30,17 @@ class Order(Resource):
                 if not item:
                     return {'msg': 'fail: item not found'}, 404
                 items.append(ItemInOrder(item_id=_id, quantity=count))
-            order = OrderModel(items=items, user_id=user_id, total_price=total_price)
+            order = OrderModel(items=items, user_id=user_id, total_price=total_price, payment_way=data['payment_way'])
+            if order.payment_way == 'from_balance':
+                if _user.current_balance < order.total_price:
+                    return {'msg': 'fail: not enough balance'}, 400
+                _user.current_balance = _user.current_balance - order.total_price
+                _user.save_user()
+                order.payment_status = True
             order.save_order()
-            return order_schema.dump(order), 200
+            return {'msg': 'success: order registered'}, 200
         except Exception as e:
-            return {'msg': f'fail: {str(e)}'}
+            return {'msg': f'fail: {str(e)}'}, 500
 
 
 class UpdateOrder(Resource):
@@ -62,7 +69,7 @@ class UpdateOrder(Resource):
             order.items = items
             order.total_price = total_price
             order.save_order()
-            return order_schema.dump(order), 200
+            return {'msg': 'success: order updated'}, 200
         except Exception as e:
             return {'msg': f'fail: {str(e)}'}
 
@@ -94,8 +101,7 @@ class OrderPayment(Resource):
         try:
             user_id = get_jwt_identity()
             order = OrderModel.find_order_by_id(order_id)
-            print(order)
-
+            # print(order)
             user = UserModel.find_user_by_id(user_id)
             if not order:
                 return {'msg': 'fail: order not fond'}, 404
