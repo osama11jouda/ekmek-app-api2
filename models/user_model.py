@@ -1,3 +1,4 @@
+import time
 from typing import List
 
 from db import db
@@ -10,11 +11,11 @@ class UserModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(255), nullable=False)
-    email = db.Column(db.String(255), nullable=False)
     phone = db.Column(db.String(10), nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    email = db.Column(db.String(255), nullable=True)
     user_image = db.Column(db.String(255), nullable=True)
-    registered_at = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    registered_at = db.Column(db.DateTime, nullable=False, default=time.strftime('%A %B, %d %Y %H:%M:%S'))
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     current_balance = db.Column(db.Float(precision=2), nullable=True, default=0.0)
 
@@ -30,8 +31,8 @@ class UserModel(db.Model):
         return cls.query.filter_by(id=_id).first()
 
     @classmethod
-    def find_user_by_email(cls, email: str) -> "UserModel":
-        return cls.query.filter_by(email=email).first()
+    def find_user_by_phone(cls, phone: str) -> "UserModel":
+        return cls.query.filter_by(phone=phone).first()
 
     @classmethod
     def find_all(cls) -> List['UserModel']:

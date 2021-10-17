@@ -7,6 +7,6 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = UserModel
         load_only = ('password',)
-        dump_only = ('id',)
+        dump_only = ('id', 'email',)
         include_fk = True
         load_instance = True

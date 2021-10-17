@@ -23,7 +23,7 @@ class UserRegister(Resource):
         try:
             data = request.get_json()
             user_data = user_schema.load(data)
-            user = UserModel.find_user_by_email(user_data.email)
+            user = UserModel.find_user_by_phone(user_data.phone)
             if not user:
                 user_data.save_user()
                 access_token = create_access_token(identity=user_data.id, fresh=True)
@@ -44,7 +44,7 @@ class UserLogin(Resource):
         try:
             data = request.get_json()
             user_data = user_schema.load(data, partial=('full_name', 'email', 'phone'))
-            user = UserModel.find_user_by_email(user_data.email)
+            user = UserModel.find_user_by_phone(user_data.phone)
             if user:
                 if compare_digest(user.password, user_data.password):
                     access_token = create_access_token(identity=user.id, fresh=True)
