@@ -43,7 +43,7 @@ class UserLogin(Resource):
     def post(cls):
         try:
             data = request.get_json()
-            user_data = user_schema.load(data, partial=('full_name', 'email', 'phone'))
+            user_data = user_schema.load(data, partial=('full_name',))
             user = UserModel.find_user_by_phone(user_data.phone)
             if user:
                 if compare_digest(user.password, user_data.password):
