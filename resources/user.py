@@ -131,7 +131,7 @@ class User(Resource):
                 if user_data.phone:
                     user.phone = user_data.phone
                 user.save_user()
-                return user_schema.dump(user), 200
+                return {'msg':'success: user info updated '}, 200
             return {'msg': USER_NOT_FOUND}, 404
         except Exception as e:
             return {'msg': str(e)}, 500

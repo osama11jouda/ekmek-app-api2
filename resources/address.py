@@ -25,7 +25,7 @@ class UserAddress(Resource):
             user_address = address_schema.load(data)
             try:
                 user_address.save_address()
-                return address_schema.dump(user_address), 201
+                return {'msg': 'success: new address added'}, 201
             except Exception as e:
                 traceback.print_exc()
                 return {'msg': str(e)}
