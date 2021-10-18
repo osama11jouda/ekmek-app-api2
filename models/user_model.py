@@ -15,7 +15,7 @@ class UserModel(db.Model):
     email = db.Column(db.String(255), nullable=True)
     user_image = db.Column(db.String(255), nullable=True)
     registered_at = db.Column(db.DateTime, nullable=False,
-                              default=db.func.current_timestamp().op('AT TIME ZONE')('UTC'))
+                              default=db.func.current_timestamp().op('AT TIME ZONE')('Europe/Istanbul'))
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     current_balance = db.Column(db.Float(precision=2), nullable=True, default=0.0)
 
