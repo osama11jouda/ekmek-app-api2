@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+import time
 from typing import List
 
 from db import db
@@ -15,7 +15,7 @@ class UserModel(db.Model):
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), nullable=True)
     user_image = db.Column(db.String(255), nullable=True)
-    registered_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc).astimezone())
+    registered_at = db.Column(db.DateTime, nullable=False, default=time.strftime('%A %B, %d %Y %H:%M:%S'))
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     current_balance = db.Column(db.Float(precision=2), nullable=True, default=0.0)
 
